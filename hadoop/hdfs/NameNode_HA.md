@@ -82,7 +82,7 @@ server接受RPC请求后开时处理namenode状态切换，在上述步骤完成
 ![Start Active Namenode](https://raw.githubusercontent.com/DazhuangSu/research_pics/master/namenodeHA/setStateInternal.png)  
 SetStateInternal总体上可分为四个步骤，prepareToExitState、prepareToEnterState、exitState以及enterState。enterState就是前文介绍的start(Active/Standby)Service。  
 prepareToExitState做的事情不多，主要是在从standby切换至active时，需要准备退出stanby状态，此时需要暂停当前的checkpoint过程，并取消新的checkpoint。  
-prepareToEnterState do nothing.
+prepareToEnterState do nothing.  
 exitState调用了stop(Active/Standby)Service。  
 stopActiveService:  
 stopActiveService的过程就是startActiveService的反过程，包括stop leaseManager、interrupt NameNodeResourceMonitor和NameNodeEditLogRoller、cacheManager和blockManager的停止和清理工作。此外还需要讲将editlog置为CLOSED并获取最新的改动写入editlog。  
